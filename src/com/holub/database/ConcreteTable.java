@@ -83,6 +83,12 @@ import com.holub.tools.ArrayIterator;
 	 * the column doesn't exist.
 	 */
 
+	// Modified by 20145822 김영현
+	// Must 확장 기능 3번
+	// Table interface 수정에 따른 메소드 구현
+	public String[] getColumnNames() {
+		return this.columnNames;
+	}
 
 	private int indexOf(String columnName) {
 		for (int i = 0; i < columnNames.length; ++i)
@@ -461,6 +467,36 @@ import com.holub.tools.ArrayIterator;
 
 		// Create places to hold the result of the join and to hold
 		// iterators for each table involved in the join.
+
+		// Modified by 20145822 김영현
+		// Must 확장 기능 3번 - select * from address, name where address.addrId = name.addrId 에러 해결하기
+
+		// 처리 순서
+		// com.holub.database.jdbc.Console에서 statement.executeQuery
+		// com.holub.database.jdbc.JDBCStatement의 executeQuery에서 database.execute
+		// com.holub.database.Database의 execute에서 statement -> in.matchAdvance(SELECT) != null 조건을 통해 doSelect 실행
+		// com.holub.database.Database의 doSelect에서 result table 생성을 위해 현재 위치의 select 메소드 실행
+
+		// 해당 sql 수행 시 아래의 코드를 수행한다.
+		// 이때, requestedColumns가 null일 경우 resultTable을 선언하는 ConcreteTable(null, null); 을 실행할 때,
+		// null에 대한 clone()을 하게되어 NullPointerException이 발생하게 된다.
+		// 해당 Exception의 발생으로 인해 최초의 statement.executeQuery에서의 try catch에 해당하는 SQLException이 출력됨.
+
+		// 이를 해결하기 위해 requestedColumns가 null일 경우에 대해 처리해야 함.
+		// null일 경우 requestedColumns를 join 결과 테이블의 모든 columnNames를 가지는 String 배열로 변경.
+		// join 결과 테이블이기 때문에, 모든 테이블의 columnNames를 추가한 뒤, 중복을 제거해 줌.
+
+		if(requestedColumns == null) {
+			ArrayList<String> requestedList = new ArrayList<String>();
+			Collections.addAll(requestedList, columnNames);
+			for(Table tempTable:otherTables) {
+				Collections.addAll(requestedList, tempTable.getColumnNames());
+			}
+			HashSet<String> distinctData = new HashSet<String>(requestedList);
+			requestedList = new ArrayList<String>(distinctData);
+			String[] arr = new String[requestedList.size()];
+			requestedColumns = requestedList.toArray(arr);
+		}
 
 		Table resultTable = new ConcreteTable(null, requestedColumns);
 		Cursor[] envelope = new Cursor[allTables.length];

@@ -252,6 +252,11 @@ public interface Table extends Serializable, Cloneable
 	 *  @see #isDirty
 	 */
 
+	// Modified by 20145822 김영현
+	// Must 확장 기능 3번
+	// 구현 과정 중 모든 테이블의 columnNames를 가져 올 getter 메소드가 필요했음.
+	// Table interface에 해당 메소드 추가.
+	String[] getColumnNames();
 
 	void export( Table.Exporter importer ) throws IOException;
 

@@ -107,6 +107,11 @@ public class UnmodifiableTable implements Table
 	public void		rename(String s){ 		 wrapped.rename(s);		}
 	public boolean	isDirty()		{ return wrapped.isDirty();		}
 
+	// Modified by 20145822 김영현
+	// Must 확장 기능 3번
+	// Table interface 수정에 따른 메소드 구현
+	public String[] getColumnNames() { return wrapped.getColumnNames(); }
+
 	/** Extract the wrapped table. The existence of this method is
 	 *  problematic, since it allows someone to defeat the unmodifiability
 	 *  of the table. On the other hand, the wrapped table came in from
