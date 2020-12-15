@@ -16,7 +16,7 @@ import java.util.Iterator;
 public class XMLExporter implements Table.Exporter, ExporterElement {
     private final Writer out;
     private int width;
-
+    private boolean columnNameFlag = true;
     public XMLExporter(Writer out) {
         this.out = out;
     }
@@ -31,7 +31,8 @@ public class XMLExporter implements Table.Exporter, ExporterElement {
 
     public void storeRow(Iterator data) throws IOException {
         int i = this.width;
-        this.out.write("\t<row>"); // 한 row의 시작에 태그 열기
+        if(columnNameFlag) this.out.write("\t<columnName>");
+        else this.out.write("\t<row>"); // 한 row의 시작에 태그 열기
         while(data.hasNext()) {
             Object datum = data.next();
             if (datum != null) {
@@ -43,8 +44,11 @@ public class XMLExporter implements Table.Exporter, ExporterElement {
                 this.out.write(",\t");
             }
         }
-
-        this.out.write("</row>\n"); // row의 끝에 태그 닫기
+        if(columnNameFlag) {
+            this.out.write("</columnName>\n");
+            this.columnNameFlag = false;
+        }
+        else this.out.write("</row>\n"); // row의 끝에 태그 닫기
     }
 
     public void startTable() throws IOException {
