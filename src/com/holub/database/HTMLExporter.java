@@ -50,4 +50,15 @@ public class HTMLExporter implements Table.Exporter, ExporterElement
     }
 
     public void startTable() throws IOException {/*nothing to do*/}
-    public void endTable()   throws IOException {/*nothing to do*/}}
+    public void endTable()   throws IOException {/*nothing to do*/}
+    public void accept(ExporterVisitor visitor) {
+        try {
+            visitor.visit(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public Writer getOut() {
+        return this.out;
+    }
+}
