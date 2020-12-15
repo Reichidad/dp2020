@@ -18,7 +18,7 @@ public class HTMLExporterTest {
             Writer out = new FileWriter("C:/dp2020/" + tableName + ".html");
             people.export(new HTMLExporter(out));
             out.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             fail("Cannot make HTML file!");
         }
     }

@@ -18,7 +18,7 @@ public class XMLExporterTest {
             Writer out = new FileWriter("C:/dp2020/" + tableName + ".xml");
             people.export(new XMLExporter(out));
             out.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             fail("Cannot make XML file!");
         }
     }

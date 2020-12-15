@@ -14,7 +14,7 @@ public class ExporterTest {
             Table people = new TableForTest().getTable();
             Exporter ex = new Exporter(people);
             ex.accept(new StartExport(people));
-        } catch (IOException e) {
+        } catch (Exception e) {
             fail("Visitor Pattern test failed with " + e);
         }
     }
