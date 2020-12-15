@@ -490,10 +490,10 @@ import com.holub.tools.ArrayIterator;
 			ArrayList<String> requestedList = new ArrayList<String>();
 			Collections.addAll(requestedList, columnNames);
 			for(Table tempTable:otherTables) {
-				Collections.addAll(requestedList, tempTable.getColumnNames());
+				for(String column:tempTable.getColumnNames()) {
+					if(!requestedList.contains(column)) requestedList.add(column);
+				}
 			}
-			HashSet<String> distinctData = new HashSet<String>(requestedList);
-			requestedList = new ArrayList<String>(distinctData);
 			String[] arr = new String[requestedList.size()];
 			requestedColumns = requestedList.toArray(arr);
 		}
