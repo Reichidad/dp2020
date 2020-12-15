@@ -8,7 +8,7 @@ HOLUB EMBEDDED SQL 기능 확장 및 설계 개선
 ## 완성한 Must 확장 기능
   - HTML Exporter
     변경 및 추가 사항
-    - src.com.holub.database.HTMLExporter.java 클래스 추가
+    - ```src.com.holub.database.HTMLExporter.java``` 클래스 추가
     - test.com.holub.database.HTMLExporterTest.java 테스트 코드로 HTML Exporter 테스트
     - 테스트 결과 생성된 "people.html" 파일은 "C:/dp2020/people.html" 경로로 저장됨
 
