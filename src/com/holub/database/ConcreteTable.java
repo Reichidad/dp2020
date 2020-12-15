@@ -78,17 +78,17 @@ import com.holub.tools.ArrayIterator;
 		this.columnNames = (String[]) columnNames.clone();
 	}
 
-	/**********************************************************************
-	 * Return the index of the named column. Throw an IndexOutOfBoundsException if
-	 * the column doesn't exist.
-	 */
-
 	// Modified by 20145822 김영현
 	// Must 확장 기능 3번
 	// Table interface 수정에 따른 메소드 구현
 	public String[] getColumnNames() {
 		return this.columnNames;
 	}
+
+	/**********************************************************************
+	 * Return the index of the named column. Throw an IndexOutOfBoundsException if
+	 * the column doesn't exist.
+	 */
 
 	private int indexOf(String columnName) {
 		for (int i = 0; i < columnNames.length; ++i)
