@@ -60,7 +60,7 @@ import java.util.*;
  * @see CSVImporter
  */
 
-public class CSVExporter implements Table.Exporter
+public class CSVExporter implements Table.Exporter, ExporterElement
 {	private final Writer out;
 	private 	  int	 width;
 
@@ -98,4 +98,14 @@ public class CSVExporter implements Table.Exporter
 
 	public void startTable() throws IOException {/*nothing to do*/}
 	public void endTable()   throws IOException {/*nothing to do*/}
+	public void accept(ExporterVisitor visitor) {
+		try {
+			visitor.visit(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public Writer getOut() {
+		return this.out;
+	}
 }
